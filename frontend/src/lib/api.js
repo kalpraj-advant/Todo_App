@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8000/api/v1", // update if needed
+  baseURL: "https://todo-ylml.onrender.com/api/v1", // update if needed
 });
 
 export const setAuthToken = (token) => {
