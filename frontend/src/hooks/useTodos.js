@@ -9,8 +9,8 @@ const useTodos = () => {
     setTodos(res.data);
   };
 
-  const addTodo = async (params) => {
-    await createTodo(params);
+  const addTodo = async (data) => {
+    await createTodo(data);
     loadTodos();
   };
 
