@@ -5,7 +5,25 @@ const api = axios.create({
 });
 
 export const setAuthToken = (token) => {
-  api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  if (token) {
+    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  } else {
+    delete api.defaults.headers.common["Authorization"];
+  }
 };
+
+// Add response interceptor to handle unauthorized responses
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      // Clear token without reloading
+      localStorage.removeItem("token");
+      // Let the component handle the redirect
+      return Promise.reject(error);
+    }
+    return Promise.reject(error);
+  }
+);
 
 export default api;

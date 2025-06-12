@@ -8,8 +8,7 @@ function LoginPage() {
 
   const handleLogin = (token) => {
     saveToken(token);
-    console.log("login success");
-    navigate("/");
+    navigate("/", { replace: true });
   };
 
   return <Login onLogin={handleLogin} />;
