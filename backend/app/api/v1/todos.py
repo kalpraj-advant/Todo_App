@@ -8,6 +8,7 @@ from app.services.repositories.todo_repository import (
     delete_todo
 )
 from app.config.security import get_current_user
+from app.schemas.todo import TodoCreate, TodoUpdate
 
 router = APIRouter()
 
@@ -16,12 +17,12 @@ def get_todos(db: Session = Depends(get_db), current_user: dict = Depends(get_cu
     return read_todos(db, current_user["id"])
 
 @router.post("/todos/")
-def create_todo_endpoint(title: str, description: str = None, completed: bool = False, db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
-    return create_todo(title, description, completed, db, current_user["id"])
+def create_todo_endpoint(todo: TodoCreate, db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
+    return create_todo(todo.title, todo.description, todo.completed, db, current_user["id"])
 
 @router.put("/todos/{todo_id}")
-def update_todo_endpoint(todo_id: int, title: str = None, description: str = None, completed: bool = None, db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
-    return update_todo(todo_id, title, description, completed, db, current_user["id"])
+def update_todo_endpoint(todo_id: int, todo: TodoUpdate, db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
+    return update_todo(todo_id, todo.title, todo.description, todo.completed, db, current_user["id"])
 
 @router.delete("/todos/{todo_id}")
 def delete_todo_endpoint(todo_id: int, db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
